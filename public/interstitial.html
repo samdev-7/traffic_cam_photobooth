@@ -73,8 +73,14 @@
                 <p>Most cameras only take new photos every two seconds, so hold your pose :)</p>
                 <br/>
             </div>
+            <div>
+                <b>5. Agree to abide by local traffic laws <span style="color: red">*</span></b></br>
+                <input type="checkbox" id="disclaimerBox" name="disclaimerBox" value="Bike">
+                <label for="vehicle1">I agree not to use Traffic Cam Photobooth for any unlawful purpose. I will comply with all local laws while using Traffic Cam Photobooth, and I will not use Traffic Cam Photobooth in a manner that creates a foreseeable risk of harm or danger to myself. I have read and agree to these terms.</label><br>
+                <br/>
+            </div>
             <div style="text-align: center; font-size: xx-large;">
-                <a class="finalLink" href="">
+                <a class="finalLink" href="#">
                     <button id="button" onclick="getUserLocation()">📸 > Take My Photo! > 📸</button>
                   </a>
                   
@@ -82,22 +88,39 @@
                 <b><a class="finalLink" id="finalLink" href="">📸 > Take My Photo > 📸</a></b><br/>
                 <b><a class="finalLink" id="finalLink" href="">>>>>>>>>>>>>>>>>>>>>>>>>>></a></b> -->
             </div>
+            <br/>
         </div>
     </div>
     <script>
+        var checkbox = document.querySelector("input[name=disclaimerBox]");
+
+        checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            console.log("Checkbox is checked..");
+            let allLinks = document.getElementsByClassName('finalLink')
+            console.log(allLinks)
+            for (let link of allLinks) {
+                if (animeCon) {
+                    link.setAttribute('href', `./animephotobooth.html?cameraId=${cameraId}&cameraUrl=${cameraUrl}`)
+                } else {
+                    link.setAttribute('href', `./photobooth.html?cameraId=${cameraId}&cameraUrl=${cameraUrl}`)
+                }
+            }
+            document.getElementById('button').innerHTML = "📸 > Take My Photo! > 📸"
+        } else {
+            console.log("Checkbox is not checked..");
+        }
+        });
+
+        const getUserLocation = () => {
+            document.getElementById('button').innerHTML = "Check the box!"
+        }
+
         const refreshImage = () => {
             document.getElementById('image').setAttribute('src', `${cameraUrl}?cacheAvoidance=${Math.floor(Math.random() * 100000)}`)
         }
         refreshImage()
-        let allLinks = document.getElementsByClassName('finalLink')
-        console.log(allLinks)
-        for (let link of allLinks) {
-            if (animeCon) {
-                link.setAttribute('href', `./animephotobooth.html?cameraId=${cameraId}&cameraUrl=${cameraUrl}`)
-            } else {
-                link.setAttribute('href', `./photobooth.html?cameraId=${cameraId}&cameraUrl=${cameraUrl}`)
-            }
-        }
+
 
 
         // .forEach(el => el.setAttribute('href', `./photobooth.html?cameraId=${cameraId}`))
