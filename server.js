@@ -110,7 +110,7 @@ app.get('/api/mostRecent', (req, res) => {
           .sort((a, b) => b.mtime.getTime() - a.mtime.getTime());
   };
   const mostRecent = getMostRecentFile('./upload/')
-  console.log(mostRecent)
+  console.log("SENDING THIS FILE BACK", mostRecent)
   res.sendFile(`${__dirname}/upload/${mostRecent.file}`)
 
   // console.log("this is most recent file", getMostRecentFile('./upload/'))
