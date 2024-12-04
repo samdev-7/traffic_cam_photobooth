@@ -1,8 +1,17 @@
 const express = require('express');
+const fs = require('fs')
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const ffmpeg = require('fluent-ffmpeg');
+const multer = require("multer");
+const glob = require('glob')
+
+
+
 
 const app = express();
+app.use(fileUpload());
+
 const port = 6969;
 
 const atl_cameras = require('./server_lists/atl_server.json');
@@ -13,11 +22,19 @@ const md_cameras = require('./server_lists/md_server.json');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error("Error occurred:", err.stack);
   res.status(500).send('Something broke!');
 });
+
+app.get("/sweetstreams", (req, res) => {
+  res.redirect("/sweetstreams.html")
+})
 
 // Helper function to get camera URL
 function getCameraUrl(area, cameraID) {
@@ -45,6 +62,54 @@ function getCameraUrl(area, cameraID) {
 //   const cameras = area === 'sea' ? sea_cameras : atl_cameras;
   return cameraUrl ? cameraUrl : false
 }
+
+// app.get('/mudSurveillance', (req, res) => {
+//   res.render('views/about');
+// });
+
+app.post('/upload', (req, res) => {
+  // Log the files to the console
+  console.log(req.files);
+
+  const { file } = req.files;
+  console.log(file)
+
+  // If no image submitted, exit
+  if (!file) return res.sendStatus(400);
+
+  // Move the uploaded image to our upload folder
+  file.mv(__dirname + '/upload/' + Date.now() + file.name);
+
+  // res.sendStatus(200);
+  res.redirect('back');
+
+
+});
+
+// app.get('/remove/:filename', (req, res) => {
+//   console.log(req.params)
+//   console.log(req.query)
+// })
+
+app.get('/mostRecent', (req, res) => {
+  const getMostRecentFile = (dir) => {
+    const files = orderReccentFiles(dir);
+    return files.length ? files[0] : undefined;
+  };
+
+  const orderReccentFiles = (dir) => {
+      return fs.readdirSync(dir)
+          .filter(file => fs.lstatSync(path.join(dir, file)).isFile())
+          .map(file => ({ file, mtime: fs.lstatSync(path.join(dir, file)).mtime }))
+          .sort((a, b) => b.mtime.getTime() - a.mtime.getTime());
+  };
+  const mostRecent = getMostRecentFile('./upload/')
+  console.log(mostRecent)
+  res.sendFile(`${__dirname}/upload/${mostRecent.file}`)
+
+  // console.log("this is most recent file", getMostRecentFile('./upload/'))
+})
+
 
 app.get('/api/:area/:cameraID', async (req, res) => {
   const { area, cameraID } = req.params;
