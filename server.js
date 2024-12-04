@@ -97,7 +97,7 @@ app.post('/upload', (req, res) => {
 //   console.log(req.query)
 // })
 
-app.get('/mostRecent', (req, res) => {
+app.get('/api/mostRecent', (req, res) => {
   const getMostRecentFile = (dir) => {
     const files = orderReccentFiles(dir);
     return files.length ? files[0] : undefined;
