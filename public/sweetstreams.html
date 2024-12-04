@@ -1,0 +1,115 @@
+<html>
+  <head>
+    <title>Traffic Cam Photobooth</title> <!-- ˜60 chars -->
+
+    <meta charset="UTF-8">
+    <!-- HTML Meta Tags -->
+    <meta name="description" content="Take selfies with traffic cameras! An anti-surveillance site by WTTDOTM.">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://trafficcamphotobooth.com">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Traffic Cam Photobooth">
+    <meta property="og:description" content="Take selfies with traffic cameras! An anti-surveillance site by WTTDOTM.">
+    <meta property="og:image" content="https://trafficcamphotobooth.com/linkPreview.png">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="trafficcamphotobooth.com">
+    <meta property="twitter:url" content="https://trafficcamphotobooth.com">
+    <meta name="twitter:title" content="Traffic Cam Photobooth">
+    <meta name="twitter:description" content="Take selfies with traffic cameras! An anti-surveillance site by WTTDOTM.">
+    <meta name="twitter:image" content="https://trafficcamphotobooth.com/linkPreview.png">
+    <link rel="stylesheet" href="styles.css"></style>
+    <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
+    <script>
+      //this is diy alternative to a google analytics
+      //it only logs IP (for calcultating unique views) and event type
+      //there are two event types: this home page load and a picture load on the /photobooth page, this pixel doesnt appear anywhere else
+      //pls do not spam I just want to know how many ppl use my site
+      //you can view the source code at https://github.com/we-make-internet/home-page/blob/main/www/diyPixel/trafficCamPixel.php
+      fetch('https://wemakeinter.net/diyPixel/trafficCamPixel.php?event=pageView')
+      const forceMobile = () => {
+        let notOnDesktop = document.getElementsByClassName('notOnDesktop')[0]
+        let onDesktop = document.getElementsByClassName('onDesktop')[0]
+        notOnDesktop.style.display = 'block'
+        onDesktop.style.display = 'none'
+        console.log(notOnDesktop, onDesktop)
+      }
+    </script>
+    <meta name="htmx-config" content='{"selfRequestsOnly":false}'> 
+    <style>
+      .onDesktop {
+        color: black;
+        font-weight: bolder;
+        font-size: xx-large;
+        display: none;
+      }
+      form {
+        margin: 0 auto;
+        font-size: 1.2em;
+        width: 80%; 
+        min-height: 30px; 
+        align-self: center;
+        align-items: center; 
+        justify-content: center;
+      }
+
+      input {font-size: xx-large;}
+      .custom-file-input {
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .hidden-input {
+        display: none;
+      }
+
+      @media only screen and (min-width: 1000px) {
+        .onDesktop {
+          display: block
+        }
+
+        .notOnDesktop {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+      <div class="main" id="main" style="font-size: small;">
+        <h1>Makeshift Surveillance Photobooth</h1>
+        <p><i>In lieu of a traffic camera, we are going to be our own surveillance state.<br/>Spying it forward, so to speak.</i></p>
+        <p>Here is the last photo someone took of this exhibit, are you in it? If so, screenshot it and share!</p>
+        <img style="max-width: 70vw; max-height: 30vh; margin: 10px;" src="/mostRecent"><hr/>
+        <br/>
+        <p><i>Take one of your own from another angle in the gallery and submit it here.</i></p>
+        <br/>
+        <form method="post" enctype="multipart/form-data" action="/upload">
+          <!-- <input type="file" name="file" class="hidden"> -->
+          <label class="custom-file-input" style="font-size: 2em ;">click to choose file
+            <input type="file" name="file" class="hidden-input">
+          </label>
+          <br/>
+          <br/>
+          <input type="submit" value="Submit">
+        </form>
+        <br/>
+        <p><i>Someone is always watching.</i></p>
+        <!-- <p><i>Check out the full gallery of photos <a href="#">here</a></i></p> -->
+        <!-- <p><i>Ethical surveillance requires the ability to opt out. Anyone can remove any photo by clicking the "remove" link in the gallery.</i></p> -->
+        <br/>
+        <br/>
+        <br/>
+        <p><i><a href="./about.html">About Page</a></i> || <i><a href="./press.html">Press Links</a></i></p>
+      <!-- <br/>
+      <p><a href="./animenyc.html">Anime Con NYC Page</a></p> -->
+        <p>Hear About New Projects:</p>
+        <form hx-post="https://wttdotm-email_capture.web.val.run/">
+          <input type="email" id="email" name="email" placeholder="your@email.com">  <input type="submit" value="Submit">
+        </form>
+        <br/>
+    </div>
+  </body>
+</html>
