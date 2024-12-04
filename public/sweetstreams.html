@@ -82,7 +82,7 @@
         <h1>Makeshift Surveillance Photobooth</h1>
         <p><i>In lieu of a traffic camera, we are going to be our own surveillance state.<br/>Spying it forward, so to speak.</i></p>
         <p>Here is the last photo someone took of this exhibit, are you in it? If so, screenshot it and share!</p>
-        <img style="max-width: 70vw; max-height: 30vh; margin: 10px;" src="/mostRecent"><hr/>
+        <img id="imagetobust" style="max-width: 70vw; max-height: 30vh; margin: 10px;" src="/api/mostRecent"><hr/>
         <br/>
         <p><i>Take one of your own from another angle in the gallery and submit it here.</i></p>
         <br/>
@@ -111,5 +111,9 @@
         </form>
         <br/>
     </div>
+    <script>
+      let link = document.getElementById("imagetobust")
+      link.setAttribute("src", `/api/mostRecent?timestamp=${Date.now()}`)
+    </script>
   </body>
 </html>
