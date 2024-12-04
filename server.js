@@ -25,7 +25,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // set the view engine to ejs
 // app.set('view engine', 'ejs');
 app.get(["/sweetstreams", "/sweetstreams/"], (req, res) => {
-  res.redirect(301, "/sweetstreams.html");
+  console.log("Incoming request to /sweetstreams");
+  console.log("Headers:", req.headers);
+  console.log("Full URL:", req.protocol + '://' + req.get('host') + req.originalUrl);
+  res.redirect("/sweetstreams.html");
 });
 
 // Error handling middleware
